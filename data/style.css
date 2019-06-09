@@ -1,0 +1,9 @@
+
+body {
+    font-family: "Work Sans", sans-serif;
+  }
+
+#map {
+  width:100%;
+  height: calc(100vh);
+}
