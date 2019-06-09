@@ -99,7 +99,7 @@
         geometries: countiesData.objects.kentucky_counties.geometries
     });
 
-    const projection = d3.geoAlbersUsa()
+    const projection = d3.geoMercator()
     .fitSize([width, height], countiesGeoJson);
 
     const path = d3.geoPath()
