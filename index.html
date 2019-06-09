@@ -62,7 +62,7 @@
     <script>
     //begin javascript functions
     const countiesJson = d3.json('data/kentucky_counties.json');
-    const burnsCSV = d3.csv('data/Kentucky_Prescribed_Fire_Council.CSV');
+    const burnsCSV = d3.csv('data/burn_points.CSV');
 
     const mapContainer = d3.select('#map');
 
@@ -92,7 +92,7 @@
     const countiesData = data[0];
     const burnsData = data[1];
 
-    console.log(countiesData);
+    // console.log(countiesData);
 
     const countiesGeoJson = topojson.feature(countiesData, {
         type: 'GeometryCollection',
@@ -110,9 +110,34 @@
         .data(countiesGeoJson.features)
         .join('path')
         .attr('d', path)
-        .attr('class', 'county')
+        .attr('class', 'county');
 
-    }    
+        console.log(burnsData);
+        const radius = d3.scaleSqrt().domain([0, 1e4]).range([1, 9]);
+
+        const color = d3.scaleOrdinal(d3.schemeSet1);
+
+     const burns = svg.append('g') // append new g element
+        .selectAll('circle') // select all the circles
+        .data(burnsData.sort(function (a, b) {
+          return b.AcresBurnUnit - a.AcresBurnUnit; // place the large ones on the bottom
+        }))
+        .join('circle') // join that data to circle elements
+        .attr('cx', d => { // feed the long/lat to the projection generator
+          d.position = projection([d.Long, d.Lat]); // create a new data attribute
+          return d.position[0]; // position the x
+        })
+        .attr('cy', d => {
+          return d.position[1]; // position the y
+        })
+        .attr('r', d => {
+          return radius(+d.AcresBurnUnit);
+        })
+        .style('fill', d => {
+          return color(d.InChangeOfName);
+        })
+        .attr('class', 'burn'); // give each circle a class name
+}    
     </script>
 </body>
 </html> 
