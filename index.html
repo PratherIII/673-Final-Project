@@ -58,8 +58,61 @@
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
     <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="https://unpkg.com/topojson@3"></script>
     <script>
     //begin javascript functions
+    const countiesJson = d3.json('data/kentucky_counties.json');
+    const burnsCSV = d3.csv('data/Kentucky_Prescribed_Fire_Council.CSV');
+
+    const mapContainer = d3.select('#map');
+
+    const width = mapContainer.node().offsetWidth - 60;
+    const height = mapContainer.node().offsetHeight - 60;
+
+    const svg = mapContainer
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .classed('position-absolute', true)
+        .style('top', 40)
+        .style('left', 40);
+    // console.log(data);
+    Promise.all([countiesJson, burnsCSV])
+    .then(drawMap)
+    .catch(error => {
+        console.log(error)
+    });
+
+
+    function drawMap(data) {
+
+        // console.log(data);
+    
+
+    const countiesData = data[0];
+    const burnsData = data[1];
+
+    console.log(countiesData);
+
+    const countiesGeoJson = topojson.feature(countiesData, {
+        type: 'GeometryCollection',
+        geometries: countiesData.objects.kentucky_counties.geometries
+    });
+
+    const projection = d3.geoAlbersUsa()
+    .fitSize([width, height], countiesGeoJson);
+
+    const path = d3.geoPath()
+    .projection(projection);
+
+    const counties = svg.append('g')
+        .selectAll('path')
+        .data(countiesGeoJson.features)
+        .join('path')
+        .attr('d', path)
+        .attr('class', 'county')
+
+    }    
     </script>
 </body>
 </html> 
