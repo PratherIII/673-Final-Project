@@ -41,7 +41,7 @@
                         </p>
                     </div>
                     <div class="col-12 col-sm-10 col-md-9">
-                        <div id="map" class = 'bg-light posion-relative'>
+                        <div id="map" class = 'bg-light position-absolute'>
                         <div class="dropdown">
                             <!-- <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
                                 Action
@@ -74,11 +74,20 @@
         .attr('width', width)
         .attr('height', height)
         .classed('position-absolute', true)
-        .call(d3.zoom().on("zoom", function () {
-    svg.attr("transform", d3.event.transform)
- }))
         .style('top', 40)
         .style('left', 40);
+
+        // Create  div for the tooltip and hide with opacity
+      const tooltip = d3.select('.container-fluid').append('div')
+        .attr('class', 'my-tooltip bg-dark text-white py-1 px-2 rounded position-absolute invisible');
+
+      mapContainer
+        .on('mousemove', event => {
+          // update the position of the tooltip
+          tooltip.style('left', (d3.event.pageX + 10) + 'px')
+            .style('top', (d3.event.pageY - 30) + 'px');
+        });
+
     // console.log(data);
     Promise.all([countiesJson, burnsCSV])
     .then(drawMap)
@@ -116,9 +125,9 @@
         .attr('class', 'county');
 
         console.log(burnsData);
-        const radius = d3.scaleSqrt().domain([0, 1e4]).range([1, 9]);
+        const radius = d3.scaleSqrt().domain([0, 4500]).range([1, 25]);
 
-        const color = d3.scaleOrdinal(d3.schemeSet1);
+        const color = d3.scaleOrdinal(d3.schemeDark2);
 
      const burns = svg.append('g') // append new g element
         .selectAll('circle') // select all the circles
@@ -140,7 +149,27 @@
           return color(d.InChangeOfName);
         })
         .attr('class', 'burn'); // give each circle a class name
-}    
+    
+        // applies event listeners to our polygons for user interaction
+      burns.on('mouseover', (d, i, nodes) => { // when mousing over an element
+          console.log(d);
+          const name = d.BurnName;
+          const date = d.DateBurn;
+          const agency = d.AgencyName;
+          const locations = d.CountyName;
+          const inCharge  = d.InChangeOfName;
+        
+          d3.select(nodes[i]).classed('hover', true).raise();
+          console.log(d); // select it, add a class name, and bring to front
+          tooltip.classed('invisible', false).html("<g>" + date + "<br>" + agency + "<br>" + locations + " County <br>" +
+            inCharge +"</g>" );
+        })
+        .on('mouseout', (d, i, nodes) => { // when mousing out of an element
+          d3.select(nodes[i]).classed('hover', false) // remove the class from the polygon
+          tooltip.classed('invisible', true) // hide the element 
+        });
+
+    }    
     </script>
 </body>
 </html> 
