@@ -43,13 +43,12 @@
                     <div class="col-12 col-sm-10 col-md-9">
                         <div id="map" class = 'bg-light position-absolute'>
                             <div id="ui" class="dropdown">
-                                <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                   All Agencies
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                  <a class="dropdown-item" href="#">Action</a>
-                                  <a class="dropdown-item" href="#">Another action</a>
-                                  <a class="dropdown-item" href="#">Something else here</a>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"></div>
+                              </div>
                                 </div>
                               </div>
                         </div>
@@ -59,6 +58,12 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+   </script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+   integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+ </script>
     <script src="https://d3js.org/d3.v5.js"></script>
     <script src="https://unpkg.com/topojson@3"></script>
     <script>
@@ -151,7 +156,7 @@
           return radius(+d.AcresBurnUnit);
         })
         .style('fill', d => {
-          return color(d.InChangeOfName);
+          return color(d.AgencyName);
         })
         .attr('class', 'burn')
         .attr('date', d => d.DateBurn)
@@ -165,7 +170,7 @@
     
         // applies event listeners to our polygons for user interaction
       burns.on('mouseover', (d, i, nodes) => { // when mousing over an element
-          console.log(d);
+        //   console.log(d);
           const name = d.BurnName;
           const date = d.DateBurn;
           const agency = d.AgencyName;
@@ -173,7 +178,7 @@
           const inCharge  = d.InChangeOfName;
         
           d3.select(nodes[i]).classed('hover', true).attr('stroke', 'black').raise();
-          console.log(d); // select it, add a class name, and bring to front
+        //   console.log(d); // select it, add a class name, and bring to front
           tooltip.classed('invisible', false).html("<g>" + date + "<br>" + agency + "<br>" + locations + " County <br>" +
             inCharge +"</g>" );
         })
@@ -194,16 +199,45 @@
             if (!uniqueTypes.includes(burn.AgencyName)) {
                 uniqueTypes.push(burn.AgencyName);
             }
-        }),
+        });
 
-        console.log(uniqueTypes);
+        // console.log(uniqueTypes);
 
         uniqueTypes.sort();
 
         uniqueTypes.unshift('All Agencies');
 
-        console.log(uniqueTypes);
-    }
+        // console.log(uniqueTypes);
+        d3.select('#ui .dropdown-menu').selectAll('a')
+        .data(uniqueTypes) // use array as data
+        .join('a') // append a new option element for each data item
+        .text(d => {
+          return d // use the item as text
+        })
+        .attr('value', d => {
+          return d // use the time -- This part here threw me off. There is not time value. as value attribute
+        })
+        .attr('href', '#')
+        .classed('dropdown-item', true)
+        .on('click', onchange); // when the user clgicks call onchange function
+      ;
+        
+      function onchange() {
+        // get the currently selected value
+        let val = d3.select(this).attr('value');
+        console.log(val);
+        // console.log(facilities);
+
+        // change the display property for each circle
+        burns.style('display', d => {
+          if (val === 'All Agencies') return 'inline';
+          if (d.AgencyName != val) return 'none';
+        });
+
+        d3.select('#ui > a').html(val); // update the UI with current val
+      };
+    };
+    
     </script>
 </body>
 </html> 
