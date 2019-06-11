@@ -16,6 +16,17 @@ body {
   fill: rgb(78, 78, 78);
 }
 
+.burns:hover {
+  stroke-width: 2;
+  stroke: black;
+}
+
+#ui {
+  position:absolute;
+  right: 1em;
+  top: 1em;
+}
+
     /* Small devices (landscape phones, 576px and up) */
     @media (min-width: 576px) {}
 

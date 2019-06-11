@@ -42,14 +42,16 @@
                     </div>
                     <div class="col-12 col-sm-10 col-md-9">
                         <div id="map" class = 'bg-light position-absolute'>
-                        <div class="dropdown">
-                            <!-- <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
-                                Action
-                            </button> -->
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                 <a class="dropdown-item disabled" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </div>
+                            <div id="ui" class="dropdown">
+                                <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  All Agencies
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item" href="#">Action</a>
+                                  <a class="dropdown-item" href="#">Another action</a>
+                                  <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                              </div>
                         </div>
                     </div>
                 </div>
@@ -79,7 +81,7 @@
 
         // Create  div for the tooltip and hide with opacity
       const tooltip = d3.select('.container-fluid').append('div')
-        .attr('class', 'my-tooltip bg-dark text-white py-1 px-2 rounded position-absolute invisible');
+        .attr('class', 'my-tooltip bg-danger text-white py-1 px-2 rounded position-absolute invisible');
 
       mapContainer
         .on('mousemove', event => {
@@ -170,17 +172,38 @@
           const locations = d.CountyName;
           const inCharge  = d.InChangeOfName;
         
-          d3.select(nodes[i]).classed('hover', true).raise();
+          d3.select(nodes[i]).classed('hover', true).attr('stroke', 'black').raise();
           console.log(d); // select it, add a class name, and bring to front
           tooltip.classed('invisible', false).html("<g>" + date + "<br>" + agency + "<br>" + locations + " County <br>" +
             inCharge +"</g>" );
         })
         .on('mouseout', (d, i, nodes) => { // when mousing out of an element
-          d3.select(nodes[i]).classed('hover', false) // remove the class from the polygon
+          d3.select(nodes[i]).classed('hover', false).attr('stroke', null).lower() // remove the class from the polygon
           tooltip.classed('invisible', true) // hide the element 
         });
 
-    }    
+        filterByAttribute(burnsData, burns)
+    };
+    
+    
+    function filterByAttribute(burnsData, burns) {
+
+        var uniqueTypes = [];
+
+        burnsData.forEach(function(burn) {
+            if (!uniqueTypes.includes(burn.AgencyName)) {
+                uniqueTypes.push(burn.AgencyName);
+            }
+        }),
+
+        console.log(uniqueTypes);
+
+        uniqueTypes.sort();
+
+        uniqueTypes.unshift('All Agencies');
+
+        console.log(uniqueTypes);
+    }
     </script>
 </body>
 </html> 
