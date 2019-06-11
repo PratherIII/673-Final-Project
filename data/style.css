@@ -21,6 +21,10 @@ body {
   stroke: black;
 }
 
+[agency='University of Kentucky'] {
+  fill: blue
+} 
+
 #ui {
   position:absolute;
   right: 1em;

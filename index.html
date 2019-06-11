@@ -6,9 +6,9 @@
 
     <title>KPFC Fire Portal Visualizer</title>
 
+    <link href="data/style.css" rel='stylesheet'/>
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
-    <link href="data/style.css" rel='stylesheet'/>
     <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
     <style>
     </style>
@@ -43,7 +43,7 @@
                     <div class="col-12 col-sm-10 col-md-9">
                         <div id="map" class = 'bg-light position-absolute'>
                             <div id="ui" class="dropdown">
-                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                <a class="btn btn-danger dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                   All Agencies
                                 </a>
@@ -155,15 +155,14 @@
         .attr('r', d => {
           return radius(+d.AcresBurnUnit);
         })
-        .style('fill', d => {
-          return color(d.AgencyName);
+        .style('fill', d => { if (d.AgencyName == 'University of Kentucky') {"blue"}
+         else return color(d.AgencyName);
         })
         .attr('class', 'burn')
         .attr('date', d => d.DateBurn)
         .attr('day', d => Date.parse(d.DateBurn))
         .attr('agency', d => d.AgencyName);
         // .attr('day', d => {d.DateBurn.parse}; // give each circle a class name
-
         // burnsData.forEach(element =>console.log(element.DateBurn));
         // const day = burns.forEach[data].DateBurn;
         // console.log(day);
