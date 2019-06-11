@@ -124,10 +124,13 @@
         .attr('d', path)
         .attr('class', 'county');
 
-        console.log(burnsData);
+        // console.log(burnsData);
         const radius = d3.scaleSqrt().domain([0, 4500]).range([1, 25]);
 
         const color = d3.scaleOrdinal(d3.schemeDark2);
+
+
+        // const day = [];
 
      const burns = svg.append('g') // append new g element
         .selectAll('circle') // select all the circles
@@ -148,7 +151,14 @@
         .style('fill', d => {
           return color(d.InChangeOfName);
         })
-        .attr('class', 'burn'); // give each circle a class name
+        .attr('class', 'burn');
+        .attr('date', d => d.DateBurn);
+        .attr('day', d => Date.parse(d.DateBurn));
+        // .attr('day', d => {d.DateBurn.parse}; // give each circle a class name
+
+        // burnsData.forEach(element =>console.log(element.DateBurn));
+        // const day = burns.forEach[data].DateBurn;
+        // console.log(day);
     
         // applies event listeners to our polygons for user interaction
       burns.on('mouseover', (d, i, nodes) => { // when mousing over an element
