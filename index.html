@@ -151,9 +151,10 @@
         .style('fill', d => {
           return color(d.InChangeOfName);
         })
-        .attr('class', 'burn');
-        .attr('date', d => d.DateBurn);
-        .attr('day', d => Date.parse(d.DateBurn));
+        .attr('class', 'burn')
+        .attr('date', d => d.DateBurn)
+        .attr('day', d => Date.parse(d.DateBurn))
+        .attr('agency', d => d.AgencyName);
         // .attr('day', d => {d.DateBurn.parse}; // give each circle a class name
 
         // burnsData.forEach(element =>console.log(element.DateBurn));
