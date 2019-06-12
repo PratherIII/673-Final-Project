@@ -56,16 +56,20 @@ body {
 
 #slider-time {
   position:absolute;
-  left: 1em;
-  top: 1em;
+  /* left: .25em; */
+  top: 2em;
   z-index: 1;
 }
 
 #value-time {
   position: absolute;
-  left: 1em;
-  top: 1em;
+  left: 4em;
+  top: .5em;
   z-index: 1;
+}
+
+.track-inset {
+  stroke: #C71C22;
 }
 
     /* Small devices (landscape phones, 576px and up) */

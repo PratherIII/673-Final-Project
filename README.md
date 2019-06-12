@@ -12,3 +12,5 @@ Use Getbootstrap.com for help with bootstrap items
 Add inverse to raise() function (lower())from d3.API.
 
 Dynamically create drop down items usingn d3. (Example from lesson 07)
+
+Create time slider using example from https://bl.ocks.org/johnwalley/e1d256b81e51da68f7feb632a53c3518
