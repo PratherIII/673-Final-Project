@@ -246,7 +246,7 @@
             function onchange() {
                 // get the currently selected value
                 let val = d3.select(this).attr('value');
-                console.log(val);
+                // console.log(val);
                 // console.log(facilities);
 
                 // change the display property for each circle
@@ -271,55 +271,64 @@
 
             const min = (d3.min(sinceEpoch));
             const max = (d3.max(sinceEpoch));
-            const fifth = ((max-min)/5);
-            console.log(fifth);
+            console.log(max);
+            const fifth = ((max - min) / 5);
+            // console.log(fifth);
             // Time
-  sliderBreaks =[];
-  sliderBreaks.push(new Date(min));
-  sliderBreaks.push(new Date(min + fifth));
-//   console.log(sliderBreaks);
-  sliderBreaks.push(new Date(min + (fifth+fifth)));
-//   console.log(sliderBreaks);
-  sliderBreaks.push(new Date(min + (fifth * 3)));
-  sliderBreaks.push(new Date(min + (fifth * 4)));
-  sliderBreaks.push(new Date(max));
-console.log(sliderBreaks);
-//   console.log(manually make even class breaks :/
+            sliderBreaks = [];
+            sliderBreaks.push(new Date(min));
+            sliderBreaks.push(new Date(min + fifth));
+            //   console.log(sliderBreaks);
+            sliderBreaks.push(new Date(min + (fifth + fifth)));
+            //   console.log(sliderBreaks);
+            sliderBreaks.push(new Date(min + (fifth * 3)));
+            sliderBreaks.push(new Date(min + (fifth * 4)));
+            sliderBreaks.push(new Date(max));
 
-  var sliderTime = d3
-    .sliderBottom()
-    .min(d3.min(sinceEpoch))
-    .max(d3.max(sinceEpoch))
-    .step(fifth)
-    .width(200)
-    .tickFormat(d3.timeFormat('%Y'))
-    .tickValues(sliderBreaks)
-    .default(new Date(2013, 1, 3))
-    .on('onchange', val => {
-      d3.select('p#value-time').text(d3.timeFormat('%B %d, %Y')(val));
+            var sliderTime = d3
+                .sliderBottom()
+                .min(d3.min(sinceEpoch))
+                .max(d3.max(sinceEpoch))
+                .step(fifth)
+                .width(200)
+                .tickFormat(d3.timeFormat('%Y'))
+                .tickValues(sliderBreaks)
+                .default(new Date(max))
+                .on('onchange', val => {
+                    d3.select('p#value-time').text(d3.timeFormat('%B %d, %Y')(val));
+                    sliderChange()
     });
+                    // console.log(d);
+                    //     // if (d == max) return 'inline';
+                    //     if (burns.day > d) return 'none';
+                    // });
+                    
 
-  var gTime = d3
-    .select('div#slider-time')
-    .append('svg')
-    .attr('width', 350)
-    .attr('height', 100)
-    .append('g')
-    .attr('transform', 'translate(30,10)');
+            var gTime = d3
+                .select('div#slider-time')
+                .append('svg')
+                .attr('width', 350)
+                .attr('height', 100)
+                .append('g')
+                .attr('transform', 'translate(30,10)');
 
-  gTime.call(sliderTime);
+            gTime.call(sliderTime);
 
-  d3.select('p#value-time').text(d3.timeFormat('%B %d, %Y')(sliderTime.value()));
-
-  let val = d3.select(this).attr('value');
-
-  burns.style('display', d => {
-          if (val === 'All Agencies') return 'inline';
-          if (d.day > val) return 'none';
-        });
+            d3.select('p#value-time').text(d3.timeFormat('%B %d, %Y')(sliderTime.value()));
 
 
-        }
+            function sliderChange() {
+                // console.log(val);
+                let val = d3.select('.burn');
+
+                console.log(val)}
+                    // burns.style('display', d => {
+                    //     // if (val === max) return 'inline';
+                    //     if (d.day > val) return 'none';
+                    // });
+            
+
+        };
     </script>
 </body>
 
