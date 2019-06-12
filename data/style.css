@@ -54,16 +54,10 @@ body {
   margin-right: -15px;
 }
 
-#slider3 {
+#slider-time {
   position:absolute;
   left: 1em;
   top: 1em;
-  width: 10%;
-  height: 5%;
-  background: rgba(75, 75, 75, 0.8);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  color: whitesmoke;
   z-index: 1;
 }
 
