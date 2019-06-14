@@ -101,6 +101,9 @@
             .style('top', 40)
             .style('left', 40);
 
+            var currentYear = 2013;
+            var currentSelection = "All Agencies";
+
         // Create  div for the tooltip and hide with opacity
         const tooltip = d3.select('.container-fluid').append('div')
             .attr('class', 'my-tooltip bg-danger text-white py-1 px-2 rounded position-absolute invisible');
@@ -240,18 +243,20 @@
                     .attr('href', '#')
                     .classed('dropdown-item', true)
                     .on('click', onchange); // when the user clgicks call onchange function
-                ;
+
 
                 function onchange() {
                     // get the currently selected value
                     let val = d3.select(this).attr('value');
-                    // console.log(val);
-                    // console.log(facilities);
+                    
+                    currentSelection = val;// console.log(facilities);
 
                     // change the display property for each circle
                     burns.style('display', d => {
-                        if (val === 'All Agencies') return 'inline';
-                        if (d.AgencyName != val) return 'none';
+                        // console.log(yearFormat(d.DateBurn));
+                        if (d.AgencyName === currentSelection && d.DateBurn.slice(-4) == currentYear) {return 'inline'};
+                        if (currentSelection === 'All Agencies') {return 'inline'};
+                        else return 'none';
                     });
 
                     burns.attr('class', 'burn');
@@ -341,24 +346,10 @@
                         }
                     })
 
-                }
-            }
-
-            function onchange() {
-                // get the currently selected value
-                let val = d3.select(this).attr('value');
-                // console.log(val);
-                // console.log(facilities);
-
-                // change the display property for each circle
-                facilities.style('display', d => {
-                    if (val === 'All facilities') return 'inline';
-                    if (d.Industry_Type != val) return 'none';
-                });
-
-                d3.select('#ui > a').html(val); // update the UI with current val
+                };
             };
-        };
+
+        
 
         function drawLegend(svg, width, height, radius) {
 
@@ -387,6 +378,7 @@
                 .attr('y', 16)
                 .text('Acres')
         }
+    }
     </script>
 </body>
 
