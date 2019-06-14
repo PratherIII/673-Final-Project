@@ -189,7 +189,7 @@
             // console.log(day);
 
             // applies event listeners to our polygons for user interaction
-            burns.on('mouseover', (d, i, nodes) => { // when mousing over an element
+            burns.on('click', (d, i, nodes) => { // when mousing over an element
                     // console.log(d);
                     const name = d.BurnName;
                     const date = d.DateBurn;
@@ -200,7 +200,7 @@
                     d3.select(nodes[i]).classed('hover', true).attr('stroke', 'black').raise();
                     //   console.log(d); // select it, add a class name, and bring to front
                     tooltip.classed('invisible', false).html("<g>" + date + "<br>" + agency + "<br>" + locations +
-                        " County <br>" +
+                        " County <br>Burn Boss: " +
                         inCharge + "</g>");
                 })
                 .on('mouseout', (d, i, nodes) => { // when mousing out of an element
