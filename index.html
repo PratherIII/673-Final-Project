@@ -25,50 +25,54 @@
                 </h1>
             </div>
         </div>
-    <container>
-        <div class="row">
-            <div class="col-1 col-sm-2 col-md-3 border border-right border-dark">
-                <h3 class="positioning-absolute width-100% py-3 text-dark border-bottom border-py-4 border-gray">
-                    Prescribed Fires from 2013-2019
-                </h3>
-                <p class="text-s my-2 py-3 border-bottom border-gray">
-                    The Kentucky Prescribed Fire Council is an organization of Natural Resource Professionals across
-                    the Commonwealth that utilize prescribed fire as a tool for landscape management. The group contains
-                    members from the Forest Service, the Nature Conservancy, the Kentucky Department of Fish and
-                    Wildlife, and
-                    of course from Berea College.
+        <container>
+            <div class="row">
+                <div class="col-1 col-sm-2 col-md-3 border border-right border-dark">
+                    <h3 class="positioning-absolute width-100% py-3 text-dark border-bottom border-py-4 border-gray">
+                        Prescribed Fires from 2013-2019
+                    </h3>
+                    <p class="text-s my-2 py-3 border-bottom border-gray">
+                        The Kentucky Prescribed Fire Council is an organization of Natural Resource Professionals across
+                        the Commonwealth that utilize prescribed fire as a tool for landscape management. The group
+                        contains
+                        members from the Forest Service, the Nature Conservancy, the Kentucky Department of Fish and
+                        Wildlife, and
+                        of course from Berea College.
 
-                    <p class="footer">
-                        <ul class="positioning-absolute ml-">
-                            <li>Data Courtesy of <a href="www.KentuckyPrescribedFireCouncil.com">Kentucky Prescribed
-                                    Fire
-                                    Council</a>.</li>
-                            <li>Check out my <a href="www.github.com/pratheriii>Github Profile">Github Profile</a></li>
-                        </ul>
+                        <p class="footer">
+                            <ul class="positioning-absolute ml-">
+                                <li>Data Courtesy of <a href="www.KentuckyPrescribedFireCouncil.com">Kentucky Prescribed
+                                        Fire
+                                        Council</a>.</li>
+                                <li>Check out my <a href="www.github.com/pratheriii>Github Profile">Github Profile</a>
+                                </li>
+                            </ul>
 
-                    </p>
-            </div>
-            <div class="col-12 col-sm-10 col-md-9 px-0 border border-top border-dark">
-                <div id="map" class='position-absolute'>
-                    <div id="ui" class="dropdown px-3">
-                        <a class="btn btn-danger dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            All Agencies
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"></div>
-                    </div>
-                    <div>
-                        <div>
-                            <p id="value-time"></p>
+                        </p>
+                </div>
+                <div class="col-12 col-sm-10 col-md-9 px-0 border border-top border-dark">
+                    <container>
+                        <div id="map" class='position-absolute'>
+                            <div id="ui" class="dropdown px-3">
+                                <a class="btn btn-danger dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    All Agencies
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"></div>
+                            </div>
+                            <div>
+                                <div>
+                                    <p id="value-time"></p>
+                                </div>
+                                <div>
+                                    <div id="slider-time"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <div id="slider-time"></div>
-                        </div>
-                    </div>
+                    </container>
                 </div>
             </div>
-        </div>
-</container>
+        </container>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -101,8 +105,8 @@
             .style('top', 40)
             .style('left', 40);
 
-            var currentYear = 2013;
-            var currentSelection = "All Agencies";
+        var currentYear = 2013;
+        var currentSelection = "All Agencies";
 
         // Create  div for the tooltip and hide with opacity
         const tooltip = d3.select('.container-fluid').append('div')
@@ -248,15 +252,17 @@
                 function onchange() {
                     // get the currently selected value
                     let val = d3.select(this).attr('value');
-                    
+
                     currentSelection = val;
 
                     // change the display property for each circle
                     burns.style('display', d => {
                         // console.log(yearFormat(d.DateBurn));
-                        if (d.AgencyName === currentSelection && d.DateBurn.slice(-4) == currentYear) {return 'inline'}
-                        else if (currentSelection === 'All Agencies' && d.DateBurn.slice(-4) == currentYear) {return 'inline'}
-                        else return 'none';
+                        if (d.AgencyName === currentSelection && d.DateBurn.slice(-4) == currentYear) {
+                            return 'inline'
+                        } else if (currentSelection === 'All Agencies' && d.DateBurn.slice(-4) == currentYear) {
+                            return 'inline'
+                        } else return 'none';
                     });
 
                     burns.attr('class', 'burn');
@@ -342,43 +348,45 @@
 
                     burns.style('display', d => {
                         // console.log(yearFormat(d.DateBurn));
-                        if (d.AgencyName === currentSelection && d.DateBurn.slice(-4) == currentYear) {return 'inline'}
-                        else if (currentSelection === 'All Agencies' && d.DateBurn.slice(-4) == currentYear) {return 'inline'}
-                        else return 'none';
+                        if (d.AgencyName === currentSelection && d.DateBurn.slice(-4) == currentYear) {
+                            return 'inline'
+                        } else if (currentSelection === 'All Agencies' && d.DateBurn.slice(-4) == currentYear) {
+                            return 'inline'
+                        } else return 'none';
                     });
                 };
             };
 
-        
 
-        function drawLegend(svg, width, height, radius) {
 
-            const legend = svg.append('g')
-                .attr('dy', '1.3em')
-                .attr('class', 'legend')
-                .attr('transform', 'translate(' + (width - 40) + ',' + (height - 20) + ')')
-                .selectAll('g')
-                .data([400, 4000])
-                .join('g');
+            function drawLegend(svg, width, height, radius) {
 
-            legend.append('circle')
-                .attr('cy', d => {
-                    return -radius(d);
-                })
-                .attr('r', radius);
+                const legend = svg.append('g')
+                    .attr('dy', '1.3em')
+                    .attr('class', 'legend')
+                    .attr('transform', 'translate(' + (width - 40) + ',' + (height - 20) + ')')
+                    .selectAll('g')
+                    .data([400, 4000])
+                    .join('g');
 
-            legend.append('text')
-                .attr('y', d => {
-                    return -2 * radius(d);
-                })
-                .attr('dy', '-.5em')
-                .text(d3.format('.1s'));
+                legend.append('circle')
+                    .attr('cy', d => {
+                        return -radius(d);
+                    })
+                    .attr('r', radius);
 
-            legend.append('text')
-                .attr('y', 16)
-                .text('Acres')
+                legend.append('text')
+                    .attr('y', d => {
+                        return -2 * radius(d);
+                    })
+                    .attr('dy', '-.5em')
+                    .text(d3.format('.1s'));
+
+                legend.append('text')
+                    .attr('y', 16)
+                    .text('Acres')
+            }
         }
-    }
     </script>
 </body>
 
