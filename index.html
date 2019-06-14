@@ -11,8 +11,6 @@
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" /> -->
     <style>
     </style>
 
@@ -21,36 +19,36 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="header bg-warning col-12 border border-dark">
-                <h1 class="text-center text-dark py-2 px-2">
+            <div class="header bg-danger col-12 border border-dark">
+                <h1 class="text-center py-2 px-2" id="Top">
                     Kentucky Prescribed Burning Activity
                 </h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-1 col-sm-2 col-md-3">
-                <h3>
-                    h3. Lorem ipsum dolor sit amet.
+            <div class="col-1 col-sm-2 col-md-3 border border-right border-dark">
+                <h3 class="positioning-absolute width-100% py-3 text-dark border-bottom border-py-4 border-gray">
+                    Prescribed Fires from 2013-2019
                 </h3>
-                <p class="lead border">
-                    Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>. Aliquam eget sapien
-                    sapien. Curabitur in metus urna. In hac habitasse platea dictumst. Phasellus eu sem sapien, sed
-                    vestibulum velit. Nam purus nibh, lacinia non faucibus et, pharetra in dolor. Sed iaculis posuere
-                    diam ut cursus. Proin massa magna, vulputate nec bibendum nec, posuere nec lacus. Aliquam mi erat,
-                    aliquam vel luctus eu, pharetra quis elit. Nulla euismod ultrices massa, et feugiat ipsum consequat
-                    eu.
-                </p>
-                <p class="footer">
-                    <ul>
-                        <li>Data Courtesy of <a href="www.KentuckyPrescribedFireCouncil.com">Kentucky Prescribed Fire
-                                Council</a>.</li>
-                        <li>Check out my <a href="www.github.com/pratheriii>Github Profile">Github Profile</a></li>
-                    </ul>
+                <p class="text-s my-2 py-3 border-bottom border-gray">
+                    The Kentucky Prescribed Fire Council is an organization of Natural Resource Professionals across
+                    the Commonwealth that utilize prescribed fire as a tool for landscape management. The group contains
+                    members from the Forest Service, the Nature Conservancy, the Kentucky Department of Fish and
+                    Wildlife, and
+                    of course from Berea College.
 
-                </p>
+                    <p class="footer">
+                        <ul class="positioning-absolute ml-">
+                            <li>Data Courtesy of <a href="www.KentuckyPrescribedFireCouncil.com">Kentucky Prescribed
+                                    Fire
+                                    Council</a>.</li>
+                            <li>Check out my <a href="www.github.com/pratheriii>Github Profile">Github Profile</a></li>
+                        </ul>
+
+                    </p>
             </div>
-            <div class="col-12 col-sm-10 col-md-9">
-                <div id="map" class='bg-light position-absolute'>
+            <div class="col-12 col-sm-10 col-md-9 border border-top border-dark">
+                <div id="map" class='position-absolute height-100%'>
                     <div id="ui" class="dropdown">
                         <a class="btn btn-danger dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -91,7 +89,7 @@
         const mapContainer = d3.select('#map');
 
         const width = mapContainer.node().offsetWidth - 60;
-        const height = mapContainer.node().offsetHeight - 40;
+        const height = mapContainer.node().offsetHeight - 60;
 
         const svg = mapContainer
             .append('svg')
@@ -202,7 +200,7 @@
                 })
                 .on('mouseout', (d, i, nodes) => { // when mousing out of an element
                     d3.select(nodes[i]).classed('hover', false).attr('stroke', null)
-                .lower(); // remove the class from the polygon
+                        .lower(); // remove the class from the polygon
                     tooltip.classed('invisible', true) // hide the element 
                 });
 
@@ -385,9 +383,8 @@
 
             legend.append('text')
                 .attr('y', 16)
-                .text('Represents Acres')
+                .text('Acres')
         }
-        
     </script>
 </body>
 

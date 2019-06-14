@@ -3,6 +3,10 @@ body {
     font-family: "Work Sans", sans-serif;
   }
 
+h3 #about-header {
+  text: black;
+}
+
 #map {
   width:100%;
   height: calc(100vh);
@@ -86,8 +90,8 @@ body {
 }
 
 #value-time {
-  position: absolute;
-  left: 4em;
+  position: relative;
+  left: 7em;
   top: .5em;
   z-index: 1;
 }
