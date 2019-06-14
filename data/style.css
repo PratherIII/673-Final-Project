@@ -44,6 +44,17 @@ body {
   top: 1em;
 }
 
+.legend circle {
+  fill: none;
+  stroke: rgb(0, 0, 0);
+}
+
+.legend text {
+  fill: #777;
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
+
 /* #slider {
   
 } */

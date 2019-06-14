@@ -91,7 +91,7 @@
         const mapContainer = d3.select('#map');
 
         const width = mapContainer.node().offsetWidth - 60;
-        const height = mapContainer.node().offsetHeight - 60;
+        const height = mapContainer.node().offsetHeight - 40;
 
         const svg = mapContainer
             .append('svg')
@@ -184,7 +184,7 @@
             // .attr('day', d => {d.DateBurn.parse}; // give each circle a class name
 
             // console.log(day);
-                
+
             // applies event listeners to our polygons for user interaction
             burns.on('mouseover', (d, i, nodes) => { // when mousing over an element
                     // console.log(d);
@@ -201,12 +201,14 @@
                         inCharge + "</g>");
                 })
                 .on('mouseout', (d, i, nodes) => { // when mousing out of an element
-                    d3.select(nodes[i]).classed('hover', false).attr('stroke', null).lower(); // remove the class from the polygon
+                    d3.select(nodes[i]).classed('hover', false).attr('stroke', null)
+                .lower(); // remove the class from the polygon
                     tooltip.classed('invisible', true) // hide the element 
                 });
 
             filterByAttribute(burnsData, burns);
             sliderUpdate(burnsData, burns, burnPoints);
+            drawLegend(svg, width, height, radius);
 
 
             function filterByAttribute(burnsData, burns) {
@@ -253,24 +255,6 @@
                     });
 
                     burns.attr('class', 'burn');
-                    burns.on('mouseover', (d, i, nodes) => { // when mousing over an element
-                    // console.log(d);
-                    const name = d.BurnName;
-                    const date = d.DateBurn;
-                    const agency = d.AgencyName;
-                    const locations = d.CountyName;
-                    const inCharge = d.InChangeOfName;
-
-                    d3.select(nodes[i]).classed('hover', true).attr('stroke', 'black').raise();
-                    //   console.log(d); // select it, add a class name, and bring to front
-                    tooltip.classed('invisible', false).html("<g>" + date + "<br>" + agency + "<br>" + locations +
-                        " County <br>" +
-                        inCharge + "</g>");
-                })
-                .on('mouseout', (d, i, nodes) => { // when mousing out of an element
-                    d3.select(nodes[i]).classed('hover', false).attr('stroke', null).lower(); // remove the class from the polygon
-                    tooltip.classed('invisible', true) // hide the element 
-                });
 
                     d3.select('#ui > a').html(val); // update the UI with current val
                 };
@@ -343,17 +327,14 @@
                 d3.select('p#value-time').text(d3.timeFormat('%Y')(sliderTime.value()));
 
                 sliderChange();
-        
 
 
                 function sliderChange(val) {
 
                     const burnPoints = d3.selectAll('.burn');
 
-                    console.log(burnPoints);
-
                     burnPoints.classed('hide', (d) => {
-                        if (d.DateBurn.slice(-4) <= val) {
+                        if (d.DateBurn.slice(-4) == val) {
                             return false;
                         } else {
                             return true;
@@ -362,7 +343,51 @@
 
                 }
             }
+
+            function onchange() {
+                // get the currently selected value
+                let val = d3.select(this).attr('value');
+                // console.log(val);
+                // console.log(facilities);
+
+                // change the display property for each circle
+                facilities.style('display', d => {
+                    if (val === 'All facilities') return 'inline';
+                    if (d.Industry_Type != val) return 'none';
+                });
+
+                d3.select('#ui > a').html(val); // update the UI with current val
+            };
+        };
+
+        function drawLegend(svg, width, height, radius) {
+
+            const legend = svg.append('g')
+                .attr('dy', '1.3em')
+                .attr('class', 'legend')
+                .attr('transform', 'translate(' + (width - 40) + ',' + (height - 20) + ')')
+                .selectAll('g')
+                .data([400, 4000])
+                .join('g');
+
+            legend.append('circle')
+                .attr('cy', d => {
+                    return -radius(d);
+                })
+                .attr('r', radius);
+
+            legend.append('text')
+                .attr('y', d => {
+                    return -2 * radius(d);
+                })
+                .attr('dy', '-.5em')
+                .text(d3.format('.1s'));
+
+            legend.append('text')
+                .attr('y', 16)
+                .text('Represents Acres')
         }
+        
     </script>
 </body>
 
