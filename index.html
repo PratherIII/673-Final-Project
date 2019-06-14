@@ -291,7 +291,7 @@
                 // const burnPoints = d3.select('svg').select('g[1]')
                 // var burnDays = circles.forEach(console.log(attributes.day));
                 // circles.forEach(console.log(day));
-
+                const val = 2013;
 
                 var sliderTime = d3
                     .sliderBottom()
@@ -326,7 +326,7 @@
 
                 d3.select('p#value-time').text(d3.timeFormat('%Y')(sliderTime.value()));
 
-                sliderChange();
+                sliderChange(val);
 
 
                 function sliderChange(val) {
