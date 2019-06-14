@@ -120,7 +120,7 @@
             });
 
 
-        function drawMap(data) {
+        function drawMap(data, burnPoints) {
 
             // console.log(data);
 
@@ -208,127 +208,142 @@
                 });
 
             filterByAttribute(burnsData, burns);
-            sliderUpdate(burnsData, burns)
-        };
+            sliderUpdate(burnsData, burns, burnPoints);
 
 
-        function filterByAttribute(burnsData, burns) {
+            function filterByAttribute(burnsData, burns) {
 
-            var uniqueTypes = [];
+                var uniqueTypes = [];
 
-            burnsData.forEach(function (burn) {
-                if (!uniqueTypes.includes(burn.AgencyName)) {
-                    uniqueTypes.push(burn.AgencyName);
-                }
-            });
-
-            // console.log(uniqueTypes);
-
-            uniqueTypes.sort();
-
-            uniqueTypes.unshift('All Agencies');
-
-            // console.log(uniqueTypes);
-            d3.select('#ui .dropdown-menu').selectAll('a')
-                .data(uniqueTypes) // use array as data
-                .join('a') // append a new option element for each data item
-                .text(d => {
-                    return d // use the item as text
-                })
-                .attr('value', d => {
-                    return d // use the time -- This part here threw me off. There is not time value. as value attribute
-                })
-                .attr('href', '#')
-                .classed('dropdown-item', true)
-                .on('click', onchange); // when the user clgicks call onchange function
-            ;
-
-            function onchange() {
-                // get the currently selected value
-                let val = d3.select(this).attr('value');
-                // console.log(val);
-                // console.log(facilities);
-
-                // change the display property for each circle
-                burns.style('display', d => {
-                    if (val === 'All Agencies') return 'inline';
-                    if (d.AgencyName != val) return 'none';
+                burnsData.forEach(function (burn) {
+                    if (!uniqueTypes.includes(burn.AgencyName)) {
+                        uniqueTypes.push(burn.AgencyName);
+                    }
                 });
 
-                d3.select('#ui > a').html(val); // update the UI with current val
+                // console.log(uniqueTypes);
+
+                uniqueTypes.sort();
+
+                uniqueTypes.unshift('All Agencies');
+
+                // console.log(uniqueTypes);
+                d3.select('#ui .dropdown-menu').selectAll('a')
+                    .data(uniqueTypes) // use array as data
+                    .join('a') // append a new option element for each data item
+                    .text(d => {
+                        return d // use the item as text
+                    })
+                    .attr('value', d => {
+                        return d // use the time -- This part here threw me off. There is not time value. as value attribute
+                    })
+                    .attr('href', '#')
+                    .classed('dropdown-item', true)
+                    .on('click', onchange); // when the user clgicks call onchange function
+                ;
+
+                function onchange() {
+                    // get the currently selected value
+                    let val = d3.select(this).attr('value');
+                    // console.log(val);
+                    // console.log(facilities);
+
+                    // change the display property for each circle
+                    burns.style('display', d => {
+                        if (val === 'All Agencies') return 'inline';
+                        if (d.AgencyName != val) return 'none';
+                    });
+
+                    burns.attr('class', 'active');
+
+                    d3.select('#ui > a').html(val); // update the UI with current val
+                };
             };
-        };
 
-        function sliderUpdate(burnsData, burns) {
-            // Time
-            var sinceEpoch = [];
+            function sliderUpdate(burnsData, burns) {
+                // Time
+                var sinceEpoch = [];
 
-            burnsData.forEach(burn => {
-                if (!sinceEpoch.includes(burn.DateBurn)) {
-                    sinceEpoch.push(Date.parse(burn.DateBurn));
+                burnsData.forEach(burn => {
+                    if (!sinceEpoch.includes(burn.DateBurn)) {
+                        sinceEpoch.push(Date.parse(burn.DateBurn));
+                    }
+                });
+
+                const yearFormat = d3.timeFormat('%Y');
+
+                const min = (d3.min(sinceEpoch));
+                const max = (d3.max(sinceEpoch));
+                // console.log(max);
+                const fifth = ((max - min) / 5);
+                // console.log(fifth);
+                // Time
+                sliderBreaks = [];
+                sliderBreaks.push(new Date(min));
+                sliderBreaks.push(new Date(min + fifth));
+                //   console.log(sliderBreaks);
+                sliderBreaks.push(new Date(min + (fifth + fifth)));
+                //   console.log(sliderBreaks);
+                sliderBreaks.push(new Date(min + (fifth * 3)));
+                sliderBreaks.push(new Date(min + (fifth * 4)));
+                sliderBreaks.push(new Date(max));
+
+                // const burnPoints = d3.select('svg').select('g[1]')
+                // var burnDays = circles.forEach(console.log(attributes.day));
+                // circles.forEach(console.log(day));
+
+
+                var sliderTime = d3
+                    .sliderBottom()
+                    .min(d3.min(sinceEpoch))
+                    .max(d3.max(sinceEpoch))
+                    .step(fifth)
+                    .width(200)
+                    .tickFormat(d3.timeFormat('%Y'))
+                    .tickValues(sliderBreaks)
+                    .default(new Date(min))
+                    .on('onchange', val => {
+                        d3.select('p#value-time').text(d3.timeFormat('%Y')(val));
+                        sliderChange(yearFormat(val));
+                    });
+
+
+                // console.log(d);
+                //     // if (d == max) return 'inline';
+                //     if (burns.day > d) return 'none';
+                // });
+
+
+                var gTime = d3
+                    .select('div#slider-time')
+                    .append('svg')
+                    .attr('width', 350)
+                    .attr('height', 100)
+                    .append('g')
+                    .attr('transform', 'translate(30,10)');
+
+                gTime.call(sliderTime);
+
+                d3.select('p#value-time').text(d3.timeFormat('%Y')(sliderTime.value()));
+
+                sliderChange();
+
+
+                function sliderChange(val) {
+
+                    const burnPoints = d3.selectAll('.burn');
+
+                    burnPoints.classed('hide', (d) => {
+                        if (d.DateBurn.slice(-4) <= val) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    })
+
                 }
-            });
-
-            const min = (d3.min(sinceEpoch));
-            const max = (d3.max(sinceEpoch));
-            console.log(max);
-            const fifth = ((max - min) / 5);
-            // console.log(fifth);
-            // Time
-            sliderBreaks = [];
-            sliderBreaks.push(new Date(min));
-            sliderBreaks.push(new Date(min + fifth));
-            //   console.log(sliderBreaks);
-            sliderBreaks.push(new Date(min + (fifth + fifth)));
-            //   console.log(sliderBreaks);
-            sliderBreaks.push(new Date(min + (fifth * 3)));
-            sliderBreaks.push(new Date(min + (fifth * 4)));
-            sliderBreaks.push(new Date(max));
-
-            var sliderTime = d3
-                .sliderBottom()
-                .min(d3.min(sinceEpoch))
-                .max(d3.max(sinceEpoch))
-                .step(fifth)
-                .width(200)
-                .tickFormat(d3.timeFormat('%Y'))
-                .tickValues(sliderBreaks)
-                .default(new Date(max))
-                .on('onchange', val => {
-                    d3.select('p#value-time').text(d3.timeFormat('%B %d, %Y')(val));
-                    sliderChange()
-    });
-                    // console.log(d);
-                    //     // if (d == max) return 'inline';
-                    //     if (burns.day > d) return 'none';
-                    // });
-                    
-
-            var gTime = d3
-                .select('div#slider-time')
-                .append('svg')
-                .attr('width', 350)
-                .attr('height', 100)
-                .append('g')
-                .attr('transform', 'translate(30,10)');
-
-            gTime.call(sliderTime);
-
-            d3.select('p#value-time').text(d3.timeFormat('%B %d, %Y')(sliderTime.value()));
-
-
-            function sliderChange() {
-                // console.log(val);
-                let val = d3.select('.burn');
-
-                console.log(val)}
-                    // burns.style('display', d => {
-                    //     // if (val === max) return 'inline';
-                    //     if (d.day > val) return 'none';
-                    // });
-            
-
-        };
+            }
+        }
     </script>
 </body>
 
