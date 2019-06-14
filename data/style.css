@@ -16,9 +16,22 @@ body {
   fill: rgb(78, 78, 78);
 }
 
-.burns:hover {
+.burn {
+  stroke-width: .5;
+  stroke: black;
+}
+
+.burns {
+  stroke-width: .5;
+  stroke: black;
+}
+.burn:hover {
   stroke-width: 2;
   stroke: black;
+}
+
+.hidden tooltip{
+
 }
 
 [agency='University of Kentucky'] {

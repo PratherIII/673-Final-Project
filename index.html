@@ -182,10 +182,9 @@
                 .attr('day', d => Date.parse(d.DateBurn))
                 .attr('agency', d => d.AgencyName);
             // .attr('day', d => {d.DateBurn.parse}; // give each circle a class name
-            // burnsData.forEach(element =>console.log(element.DateBurn));
-            // const day = burns.forEach[data].DateBurn;
-            // console.log(day);
 
+            // console.log(day);
+                
             // applies event listeners to our polygons for user interaction
             burns.on('mouseover', (d, i, nodes) => { // when mousing over an element
                     // console.log(d);
@@ -202,8 +201,7 @@
                         inCharge + "</g>");
                 })
                 .on('mouseout', (d, i, nodes) => { // when mousing out of an element
-                    d3.select(nodes[i]).classed('hover', false).attr('stroke', null)
-                        .lower() // remove the class from the polygon
+                    d3.select(nodes[i]).classed('hover', false).attr('stroke', null).lower(); // remove the class from the polygon
                     tooltip.classed('invisible', true) // hide the element 
                 });
 
@@ -254,7 +252,25 @@
                         if (d.AgencyName != val) return 'none';
                     });
 
-                    burns.attr('class', 'active');
+                    burns.attr('class', 'burn');
+                    burns.on('mouseover', (d, i, nodes) => { // when mousing over an element
+                    // console.log(d);
+                    const name = d.BurnName;
+                    const date = d.DateBurn;
+                    const agency = d.AgencyName;
+                    const locations = d.CountyName;
+                    const inCharge = d.InChangeOfName;
+
+                    d3.select(nodes[i]).classed('hover', true).attr('stroke', 'black').raise();
+                    //   console.log(d); // select it, add a class name, and bring to front
+                    tooltip.classed('invisible', false).html("<g>" + date + "<br>" + agency + "<br>" + locations +
+                        " County <br>" +
+                        inCharge + "</g>");
+                })
+                .on('mouseout', (d, i, nodes) => { // when mousing out of an element
+                    d3.select(nodes[i]).classed('hover', false).attr('stroke', null).lower(); // remove the class from the polygon
+                    tooltip.classed('invisible', true) // hide the element 
+                });
 
                     d3.select('#ui > a').html(val); // update the UI with current val
                 };
@@ -327,11 +343,14 @@
                 d3.select('p#value-time').text(d3.timeFormat('%Y')(sliderTime.value()));
 
                 sliderChange();
+        
 
 
                 function sliderChange(val) {
 
                     const burnPoints = d3.selectAll('.burn');
+
+                    console.log(burnPoints);
 
                     burnPoints.classed('hide', (d) => {
                         if (d.DateBurn.slice(-4) <= val) {
