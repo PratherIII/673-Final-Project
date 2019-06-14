@@ -90,7 +90,7 @@ h3 #about-header {
 }
 
 #value-time {
-  position: relative;
+  position: absolute;
   left: 7em;
   top: .5em;
   z-index: 1;
