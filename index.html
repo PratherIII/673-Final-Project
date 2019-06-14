@@ -249,13 +249,13 @@
                     // get the currently selected value
                     let val = d3.select(this).attr('value');
                     
-                    currentSelection = val;// console.log(facilities);
+                    currentSelection = val;
 
                     // change the display property for each circle
                     burns.style('display', d => {
                         // console.log(yearFormat(d.DateBurn));
-                        if (d.AgencyName === currentSelection && d.DateBurn.slice(-4) == currentYear) {return 'inline'};
-                        if (currentSelection === 'All Agencies') {return 'inline'};
+                        if (d.AgencyName === currentSelection && d.DateBurn.slice(-4) == currentYear) {return 'inline'}
+                        else if (currentSelection === 'All Agencies' && d.DateBurn.slice(-4) == currentYear) {return 'inline'}
                         else return 'none';
                     });
 
@@ -336,16 +336,16 @@
 
                 function sliderChange(val) {
 
+                    console.log(val);
+                    currentYear = val;
                     const burnPoints = d3.selectAll('.burn');
 
-                    burnPoints.classed('hide', (d) => {
-                        if (d.DateBurn.slice(-4) == val) {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    })
-
+                    burns.style('display', d => {
+                        // console.log(yearFormat(d.DateBurn));
+                        if (d.AgencyName === currentSelection && d.DateBurn.slice(-4) == currentYear) {return 'inline'}
+                        else if (currentSelection === 'All Agencies' && d.DateBurn.slice(-4) == currentYear) {return 'inline'}
+                        else return 'none';
+                    });
                 };
             };
 
