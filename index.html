@@ -26,8 +26,8 @@
             </div>
         </div>
         <container>
-            <div class="row">
-                <div class="col-1 col-sm-2 col-md-3 border border-right border-dark">
+            <div class="row" id="row-1">
+                <div class="col-12 col-sm-12 col-md-3 border border-right border-dark">
                     <h3 class="positioning-absolute width-100% py-3 text-dark border-bottom border-py-4 border-gray">
                         Prescribed Fires from 2013-2019
                     </h3>
@@ -38,19 +38,20 @@
                         members from the Forest Service, the Nature Conservancy, the Kentucky Department of Fish and
                         Wildlife, and
                         of course from Berea College.
+                    
 
                         <p class="footer">
                             <ul class="positioning-absolute ml-">
-                                <li>Data Courtesy of <a href="www.KentuckyPrescribedFireCouncil.com">Kentucky Prescribed
+                                <li>Data Courtesy of <a href="http://www.kyfire.org/">Kentucky Prescribed
                                         Fire
                                         Council</a>.</li>
-                                <li>Check out my <a href="www.github.com/pratheriii>Github Profile">Github Profile</a>
+                                <li>Check out my <a href="https://github.com/PratherIII">Github Profile</a>
                                 </li>
                             </ul>
 
                         </p>
                 </div>
-                <div class="col-12 col-sm-10 col-md-9 px-0 border border-top border-dark">
+                <div class="col-align-top col-12 col-sm-12 col-md-9 px-0 border border-top border-dark">
                     <container>
                         <div id="map" class='position-absolute'>
                             <div id="ui" class="dropdown px-3">
@@ -102,7 +103,7 @@
             .attr('width', width)
             .attr('height', height)
             .classed('position-absolute', true)
-            .style('top', 40)
+            .style('top', 70)
             .style('left', 40);
 
         var currentYear = 2013;
@@ -200,12 +201,13 @@
                     const agency = d.AgencyName;
                     const locations = d.CountyName;
                     const inCharge = d.InChangeOfName;
+                    const size = d.AcresBurnUnit;
 
                     d3.select(nodes[i]).classed('hover', true).attr('stroke', 'black').raise();
                     //   console.log(d); // select it, add a class name, and bring to front
                     tooltip.classed('invisible', false).html("<g>" + date + "<br>" + agency + "<br>" + locations +
                         " County <br>Burn Boss: " +
-                        inCharge + "</g>");
+                        inCharge + "<br>Acres: " + size + "</g>");
                 })
                 .on('mouseout', (d, i, nodes) => { // when mousing out of an element
                     d3.select(nodes[i]).classed('hover', false).attr('stroke', null)
