@@ -19,7 +19,7 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="header bg-danger col-12 border border-dark">
+            <div class="header bg-danger col-12 border border-dark border-bottom-0">
                 <h1 class="text-center py-2 px-2" id="Top">
                     Kentucky Prescribed Burning Activity
                 </h1>
@@ -96,7 +96,7 @@
         const mapContainer = d3.select('#map');
 
         const width = mapContainer.node().offsetWidth - 60;
-        const height = mapContainer.node().offsetHeight - 70;
+        const height = mapContainer.node().offsetHeight - 80;
 
         const svg = mapContainer
             .append('svg')
