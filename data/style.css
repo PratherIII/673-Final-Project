@@ -3,11 +3,6 @@ body {
     font-family: "Work Sans", sans-serif;
   }
 
-h1#top.text {
-  stroke: black; !important;
-  stroke-width: 10; !important;
-}
-
 h3 #about-header {
   text: black;
 }
