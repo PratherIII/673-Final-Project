@@ -19,7 +19,7 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="header bg-danger col-12 border border-dark border-bottom-0">
+            <div class="header bg-danger col-12 border border-dark">
                 <h1 class="text-center py-2 px-2" id="Top">
                     Kentucky Prescribed Burning Activity
                 </h1>
@@ -27,7 +27,7 @@
         </div>
         <container>
             <div class="row" id="row-1">
-                <div class="col-12 col-sm-12 col-md-3 border border-right border-dark">
+                <div class="col-12 col-sm-12 col-md-3 border border-right border-bottom-0 border-dark">
                     <h3 class="positioning-absolute width-100% py-3 text-dark border-bottom border-py-4 border-gray">
                         Prescribed Fires from 2013-2019
                     </h3>
@@ -51,7 +51,7 @@
 
                         </p>
                 </div>
-                <div class="col-align-top col-12 col-sm-12 col-md-9 px-0 border border-top border-dark">
+                <div class="col-align-top col-12 col-sm-12 col-md-9 px-0 border border-top border-bottom-0 border-dark">
                     <container>
                         <div id="map" class='position-absolute'>
                             <div id="ui" class="dropdown px-3">
@@ -117,7 +117,7 @@
             .on('mousemove', event => {
                 // update the position of the tooltip
                 tooltip.style('left', (d3.event.pageX + 10) + 'px')
-                    .style('top', (d3.event.pageY - 30) + 'px');
+                    .style('top', (d3.event.pageY - 10) + 'px');
             });
 
         // console.log(data);
